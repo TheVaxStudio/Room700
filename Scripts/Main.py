@@ -1,8 +1,8 @@
 from Game import Game
 
 class Main:
-    def Start(self):
+    def start(self):
         self.game = Game()
 
-Main = Main()
-Main.Start()
+main = Main()
+main.start()
