@@ -20,8 +20,10 @@ class Game:
 
     def Render(self):
         self.Running = True
+        self.frames = 0
         while self.Running:
             self.Clock.tick(60)
+            self.frames += 1
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.Running = False
@@ -31,5 +33,5 @@ class Game:
             self.tilemap.draw(self.Screen, self.camera)
             self.light.draw(self.Screen)
             self.player.draw(self.Screen, self.camera)
-            self.player.update()
+            self.player.update(self.frames)
             pygame.display.flip()

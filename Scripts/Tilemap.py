@@ -40,12 +40,11 @@ class Tilemap:
 
     def check_collision(self, player_rect):
         for y, row in enumerate(self.map):
-            for x, tile in enumerate(row):
-                if tile == 2:
+            for x, tile in enumerate(row):                
+                if tile == 2:                                   
                     wall_rect = pygame.Rect(x * self.tilesize, y * self.tilesize, self.tilesize, self.tilesize)
-                    if player_rect.colliderect(wall_rect):
-                        return True
-                    return False
+                    if player_rect.colliderect(wall_rect):                        
+                        return True                    
 
     def draw(self, screen, camera):
         x = 64
