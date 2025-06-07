@@ -75,7 +75,7 @@ class Player:
                 number_of_actual_animations = len(self.animations[self.current_animation])
                 total_of_animated_frames = animation_duration_in_frames * number_of_actual_animations
                 actual_frame_count_of_animations = elapsed_frames % total_of_animated_frames
-                self.frame_index = int(actual_frame_count_of_animations / animation_duration_in_frames)
+                self.frame_index = actual_frame_count_of_animations // animation_duration_in_frames
 
         supposed_rect = pygame.Rect(self.position.x + x_movement, self.position.y + y_movement, self.rect.width, self.rect.height)
         has_player_collided = self.tilemap.check_collision(supposed_rect)
