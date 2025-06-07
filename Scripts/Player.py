@@ -61,12 +61,15 @@ class Player:
             self.is_standing = True
             
         self.image = self.animations[self.current_animation][self.frame_index]
-        self.animation_duration = 15
+        self.animation_duration_in_frames = stg['animation_duration_in_frames']
 
-        if self.is_standing == False:
-            self.frame_index = int((elapsed_frames % (self.animation_duration * len(self.animations[self.current_animation]))) / self.animation_duration)
-        else:
+        if self.is_standing:
             self.frame_index = 0
+        else:
+            self.number_of_actual_animations = len(self.animations[self.current_animation])
+            self.total_of_animated_frames = self.animation_duration_in_frames * self.number_of_actual_animations
+            self.actual_frame_count_of_animations = elapsed_frames % self.total_of_animated_frames
+            self.frame_index = int(self.actual_frame_count_of_animations / self.animation_duration_in_frames)
 
         supposed_rect = pygame.Rect(self.position.x + x_movement, self.position.y + y_movement, self.rect.width, self.rect.height)
         has_player_collided = self.tilemap.check_collision(supposed_rect)
