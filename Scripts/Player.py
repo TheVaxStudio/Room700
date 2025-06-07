@@ -1,4 +1,5 @@
 import pygame
+from Settings import settings as stg
 
 class Player:
     def __init__(self, tilemap):
@@ -35,11 +36,11 @@ class Player:
         self.frame_index = 0
         self.image = self.animations[self.current_animation][self.frame_index]
         self.rect = pygame.Rect(self.position.x, self.position.y, 64, 64)
-        self.speed = 5
+        self.speed = stg['player_speed']
         self.tilemap = tilemap
 
-    def update(self, frames):
-        self.standing = False
+    def update(self, elapsed_frames):
+        self.is_standing = False
         keys = pygame.key.get_pressed()
         old_position = self.position.copy()
         x_movement = 0.0
@@ -57,13 +58,13 @@ class Player:
             x_movement += self.speed
             self.current_animation = 'right'
         else:
-            self.standing = True
+            self.is_standing = True
             
         self.image = self.animations[self.current_animation][self.frame_index]
         self.animation_duration = 15
 
-        if self.standing == False:
-            self.frame_index = int((frames % (self.animation_duration * len(self.animations[self.current_animation]))) / self.animation_duration)
+        if self.is_standing == False:
+            self.frame_index = int((elapsed_frames % (self.animation_duration * len(self.animations[self.current_animation]))) / self.animation_duration)
         else:
             self.frame_index = 0
 
