@@ -27,7 +27,7 @@ class Game:
 
     def update(self):
         self.clock.tick(stg['fps'])
-        self.elapsed_frames += 1
+        self.elapsed_frames = (self.elapsed_frames + 1) % stg['fps']
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
