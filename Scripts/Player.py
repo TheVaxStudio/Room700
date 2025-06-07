@@ -38,9 +38,9 @@ class Player:
         self.rect = pygame.Rect(self.position.x, self.position.y, 64, 64)
         self.speed = stg['player_speed']
         self.tilemap = tilemap
+        self.state = 'standing'
 
-    def update(self, elapsed_frames):
-        self.is_standing = False
+    def update(self, camera, options):        
         keys = pygame.key.get_pressed()
         old_position = self.position.copy()
         x_movement = 0.0
@@ -48,25 +48,34 @@ class Player:
         if keys[pygame.K_w]:
             y_movement -= self.speed
             self.current_animation = 'up'
+            self.state = 'moving'
         elif keys[pygame.K_s]:
             y_movement += self.speed
             self.current_animation = 'down'
+            self.state = 'moving'
         elif keys[pygame.K_a]:
             x_movement -= self.speed
             self.current_animation = 'left'
+            self.state = 'moving'
         elif keys[pygame.K_d]:
             x_movement += self.speed
             self.current_animation = 'right'
+            self.state = 'moving'
         else:
-            self.is_standing = True
+            self.state = 'standing'
             
         self.image = self.animations[self.current_animation][self.frame_index]
-        self.animation_duration = 15
+        animation_duration_in_frames = stg['animation_duration_in_frames']
+        elapsed_frames = options['elapsed_frames']
 
-        if self.is_standing == False:
-            self.frame_index = int((elapsed_frames % (self.animation_duration * len(self.animations[self.current_animation]))) / self.animation_duration)
-        else:
-            self.frame_index = 0
+        match self.state:
+            case 'standing':
+                self.frame_index = 0
+            case 'moving':
+                number_of_actual_animations = len(self.animations[self.current_animation])
+                total_of_animated_frames = animation_duration_in_frames * number_of_actual_animations
+                actual_frame_count_of_animations = elapsed_frames % total_of_animated_frames
+                self.frame_index = actual_frame_count_of_animations // animation_duration_in_frames
 
         supposed_rect = pygame.Rect(self.position.x + x_movement, self.position.y + y_movement, self.rect.width, self.rect.height)
         has_player_collided = self.tilemap.check_collision(supposed_rect)

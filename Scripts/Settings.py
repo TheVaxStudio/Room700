@@ -3,7 +3,7 @@ settings = {
     'screen_height': 720,
     'title': 'Room700',
     'fps': 60,
-    'animation_timer': 0.1,
+    'animation_duration_in_frames': 15,
     'player_speed': 5,
     'light': {
         'intensity': 500,

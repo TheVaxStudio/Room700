@@ -32,8 +32,12 @@ class Game:
             if event.type == pygame.QUIT:
                 self.running = False
                 pygame.quit()
-                sys.exit()                    
-        self.player.update(self.elapsed_frames)
+                sys.exit() 
+
+        options = {
+            'elapsed_frames': self.elapsed_frames
+        }                   
+        self.player.update(self.camera, options)
 
     def render(self):        
         self.screen.fill(stg['light']['color'])
